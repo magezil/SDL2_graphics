@@ -1,5 +1,4 @@
-#include "demo.h"
-#include <SDL.h>
+#include "rectangles.h"
 
 int main(void)
 {
@@ -48,23 +47,33 @@ int init_instance(SDL_Instance *instance)
 
 void draw_stuff(SDL_Instance instance)
 {
+	int i, j, index;
+	SDL_Rect r;
+	SDL_Rect rects[64];
 	SDL_SetRenderDrawColor(instance.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderDrawLine(instance.renderer, 10, 10, 100, 100);
 	SDL_SetRenderDrawColor(instance.renderer, 255, 0, 0, 255);
 	SDL_RenderClear(instance.renderer);
 
-SDL_Rect r;
-r.x = 50;
-r.y = 50;
-r.w = 50;
-r.h = 50;
- 
-	SDL_SetRenderDrawColor(instance.renderer, 0, 0, 0xFF, 0xFF);
+index = 0;
+for(i = 0; i < 8; i++)
+{ 
+for(j = 0; j < 8; j++)
+{
+rects[index].x = 50*(i + 1);
+rects[index].y = 50*(j + 1);
+rects[index].w = 50;
+rects[index].h = 50;
+index++;
+}
+}
+
+	SDL_SetRenderDrawColor(instance.renderer, 0, 0xFF, 0, 0xFF);
 
 // Render our SDL_Rect
 // The top left pos of the rect will be at 50, 50
 // It will stretch 50 to the left and 50 towards the bottom
-SDL_RenderDrawRect( instance.renderer, &r );
+SDL_RenderDrawRects( instance.renderer, rects, i*j );
  
 // Render the changes above 
 // ( which up until now had just happened behind the scenes )
